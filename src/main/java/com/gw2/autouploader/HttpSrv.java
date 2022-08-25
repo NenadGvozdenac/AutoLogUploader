@@ -87,7 +87,6 @@ public class HttpSrv {
             App.srv.stopRecording();
             GUI.btnNewButton.setEnabled(true);
         }
-        
     }
 
     public static void registerAll(final Path start) throws IOException {
