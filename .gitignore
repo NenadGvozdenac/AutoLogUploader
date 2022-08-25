@@ -1,0 +1,9 @@
+test
+.vscode
+data
+classes
+test-classes
+fabric8
+generated-sources
+maven-archiver
+maven-status
