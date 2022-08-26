@@ -2,6 +2,7 @@ package com.gw2.autouploader;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -79,22 +80,28 @@ public class GUI extends JFrame {
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.setBounds(10, 93, 414, 150);
 
-		contentPane.add(list);
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setViewportView(list);
+        list.setLayoutOrientation(JList.VERTICAL);
+        scrollPane.setPreferredSize(new Dimension(300, 300));
+        scrollPane.setBounds(10, 93, 414, 150);
+
+		contentPane.add(scrollPane);
 		
 		btnNewButton = new JButton("Start Recording");                          // start recording button
 		btnNewButton.setToolTipText("Start the recording of logs...");
 		btnNewButton.setFont(new Font("Segoe UI", Font.PLAIN, 11));
 		btnNewButton.setBounds(10, 254, 121, 23);
         btnNewButton.addMouseListener(new ButtonEventListener());
+        btnNewButton.setEnabled(true);
 		contentPane.add(btnNewButton);
         
 		btnStopRecording = new JButton("Stop recording");                       // stop recording button
 		btnStopRecording.setToolTipText("Stop the recording of logs...");
 		btnStopRecording.setFont(new Font("Segoe UI", Font.PLAIN, 11));
 		btnStopRecording.setBounds(303, 254, 121, 23);
-        btnStopRecording.setEnabled(false);
         btnStopRecording.addMouseListener(new ButtonEventListener());
-        
+        btnStopRecording.setEnabled(false);
 		contentPane.add(btnStopRecording);
 		
 		btnNewButton_1 = new JButton("Change logging folder");                  // logging folder button
@@ -113,7 +120,7 @@ public class GUI extends JFrame {
         @Override
         public void mouseClicked(MouseEvent arg0) {
             
-            if(arg0.getSource().equals(GUI.btnNewButton)) {
+            if(arg0.getSource().equals(GUI.btnNewButton) && GUI.btnNewButton.isEnabled()) {
                 try {
                     App.srv.startRecording(App.pathToDir);
                     JButton currButton = (JButton) arg0.getSource();
@@ -123,7 +130,7 @@ public class GUI extends JFrame {
                 } catch (IOException | InterruptedException | UnirestException e) {
                     e.printStackTrace();
                 }
-            } else if(arg0.getSource().equals(GUI.btnStopRecording)) {
+            } else if(arg0.getSource().equals(GUI.btnStopRecording) && GUI.btnStopRecording.isEnabled()) {
                 App.srv.stopRecording();
 
                 JButton currButton = (JButton) arg0.getSource();

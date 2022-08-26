@@ -36,22 +36,26 @@ public class HttpSrv {
                     recordingStill = true;
 
                     while ((watchKey = App.watchService.take()) != null && recordingStill) {
-
+                        
                         for (WatchEvent<?> event : watchKey.pollEvents()) {
+
                             Path dir = (Path)watchKey.watchable();
                             Path fullPath = dir.resolve(event.context().toString());
-      
-                            System.out.println(fullPath);
 
-                            if(!fullPath.toString().contains(".zevtc")) continue;
+                            HttpSrv.registerAll(path);
 
-                            File file = fullPath.toFile();
-                            try {
-                                DpsReportApi.UPLOAD_FILE(file);
-                            } catch (UnirestException e) {
-                                e.printStackTrace();
+                            if(fullPath.toString().contains(".zevtc")) {
+                                System.out.println("UPLOADING " + fullPath + "\n");
+                                File file = fullPath.toFile();
+                                try {
+                                    DpsReportApi.UPLOAD_FILE(file);
+                                } catch (UnirestException e) {
+                                    e.printStackTrace();
+                                }
+                                break;
                             }
-                            break;
+                            
+                            System.out.println(fullPath);
                         }
                         watchKey.reset();
                     }
@@ -94,13 +98,11 @@ public class HttpSrv {
         Files.walkFileTree(start, new SimpleFileVisitor<Path>() {
     
             @Override
-            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs)
-                    throws IOException {
+            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
                 dir.register(App.watchService, StandardWatchEventKinds.ENTRY_CREATE);
                 return FileVisitResult.CONTINUE;
             }
     
         });
-    
     }
 }
