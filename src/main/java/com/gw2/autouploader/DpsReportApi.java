@@ -20,7 +20,6 @@ public class DpsReportApi {
         JsonElement element = JsonParser.parseString(response.getBody());
 
         JsonObject object = element.getAsJsonObject();
-
         String permalink = object.get("permalink").getAsString();                   // Important
 
         HttpResponse<String> responseDetailed = Unirest.get("https://dps.report/getJson")
@@ -33,10 +32,10 @@ public class DpsReportApi {
         String fightName = objectDetailed.get("fightName").getAsString();
         String duration = objectDetailed.get("duration").getAsString();
         Boolean success = objectDetailed.get("success").getAsBoolean();
+        Boolean logBossIsCm = object.getAsJsonObject().get("encounter").getAsJsonObject().get("isCm").getAsBoolean();
 
-        String finalString = fightName + " `->` " + permalink + " `-` " + duration + " `-` success: `" + success + "`"; 
         String guiString = fightName + " - " + permalink;
 
-        HttpSrv.POST(finalString, guiString);
+        HttpSrv.POST(fightName, permalink, duration, String.valueOf(success), String.valueOf(logBossIsCm), guiString);
     }
 }

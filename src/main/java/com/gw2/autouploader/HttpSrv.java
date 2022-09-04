@@ -79,12 +79,26 @@ public class HttpSrv {
         }
     }
 
-    public static void POST(String finalString, String guiString) {
+    public static void POST(String fightname, String permalink, String duration, String success, String fightcm, String guiString) {
         String url = "http://78.108.218.94:25639/staticFileUpload";
         HttpResponse<String> response;
         try {
-            response = Unirest.post(url).header("bosslog", finalString).asString();
-            System.out.println(response.getBody());
+
+            // String bossLogPermaLink = exchange.getRequestHeaders().getFirst("bosslog");
+            // String bossLogTime = exchange.getRequestHeaders().getFirst("bosstime");
+            // String bossLogSuccess = exchange.getRequestHeaders().getFirst("bosssuccess");
+
+            response = Unirest.post(url)
+                .header("bosslog", permalink)
+                .header("bosstime", duration)
+                .header("bosssuccess", success)
+                .header("bossname", fightname)
+                .header("bosscm", fightcm).asString();
+
+            if(response.getStatus() == 500) {
+                throw new UnirestException("Exception...");
+            }
+
             GUI.model.addElement(guiString);
         } catch (UnirestException e) {
             JOptionPane.showMessageDialog(null, "Unfortunately, the port is not open to requests.", "ERROR", JOptionPane.ERROR_MESSAGE);
