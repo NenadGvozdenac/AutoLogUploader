@@ -1,5 +1,6 @@
 package com.gw2.autouploader;
 
+import java.awt.AWTException;
 import java.net.URISyntaxException;
 import java.nio.file.WatchService;
 
@@ -12,7 +13,7 @@ public class App  {
     public static WatchService watchService;
     public static HttpSrv srv;
 
-    public static void main( String[] args ) throws ClientProtocolException, UnirestException, InterruptedException, URISyntaxException {
+    public static void main( String[] args ) throws ClientProtocolException, UnirestException, InterruptedException, URISyntaxException, AWTException {
 
         pathToDir = new DirPath().getActiveDirectory();
         srv = new HttpSrv();

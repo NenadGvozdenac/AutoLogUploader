@@ -19,6 +19,8 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
+import java.awt.TrayIcon.MessageType;
+
 public class HttpSrv {
 	
     public static Boolean recordingStill = false;
@@ -98,6 +100,8 @@ public class HttpSrv {
             if(response.getStatus() == 500) {
                 throw new UnirestException("Exception...");
             }
+
+            GUI.icon.displayMessage("Log Upload Successful!", fightname + " was uploaded!", MessageType.INFO);
 
             GUI.model.addElement(guiString);
         } catch (UnirestException e) {

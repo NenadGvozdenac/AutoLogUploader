@@ -37,7 +37,7 @@ public class DirPath {
 
         String defaultPath = "C:\\Users\\matri\\OneDrive\\Documents\\Guild Wars 2\\addons\\arcdps\\arcdps.cbtlogs";
 
-        try (Reader reader = new FileReader(new File("path.json"))) {
+        try (Reader reader = new FileReader(new File("./path.json"))) {
 
             Gson gson = new GsonBuilder()
                 .disableHtmlEscaping()
@@ -76,8 +76,7 @@ public class DirPath {
 
             if(result == JOptionPane.OK_OPTION) {
                 JOptionPane.showMessageDialog(null, "Chosen directory " + fileChooser.getCurrentDirectory(), "CONFIRMATION", JOptionPane.PLAIN_MESSAGE);
-
-                try (FileWriter writer = new FileWriter(new File("path.json"))) {
+                try (FileWriter writer = new FileWriter(new File("./path.json"))) {
                     writer.write(gson.toJson(new DirPath(fileChooser.getCurrentDirectory().getAbsolutePath())));
                     writer.close();
     

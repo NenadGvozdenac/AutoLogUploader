@@ -7,6 +7,14 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.Image;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
+import java.awt.SystemTray;
+import java.awt.Toolkit;
+import java.awt.TrayIcon;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 
@@ -18,6 +26,7 @@ import javax.swing.event.MouseInputListener;
 
 import com.mashape.unirest.http.exceptions.UnirestException;
 
+import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Dimension;
 
@@ -36,14 +45,20 @@ public class GUI extends JFrame {
 
     public static JFrame frame;
 
-    public GUI(String pathToDir) {
+    public static TrayIcon icon;
+
+    MenuItem show = new MenuItem("Open");
+    MenuItem exit = new MenuItem("Exit");
+    MenuItem startRec = new MenuItem("Start Rec.");
+    MenuItem stopRec = new MenuItem("Stop Rec.");
+
+    public GUI(String pathToDir) throws AWTException {
         frame = this;
 
         setIconImage(new ImageIcon("icon.png").getImage());
 		setTitle("Logging Application UI");
 		setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
 		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 331);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -112,6 +127,82 @@ public class GUI extends JFrame {
 		contentPane.add(btnNewButton_1);
 		
 		setLocationRelativeTo(null);
+
+        if(SystemTray.isSupported() == true) {
+            setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+
+            SystemTray tray = SystemTray.getSystemTray();
+
+            PopupMenu menu = new PopupMenu();
+
+            show.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    frame.setVisible(true);
+                }
+            });
+
+            exit.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    frame.dispose();
+                    System.exit(0);
+                }
+            });
+
+            startRec.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        App.srv.startRecording(App.pathToDir);
+                        JButton currButton = btnNewButton;
+                        currButton.setEnabled(false);
+    
+                        startRec.setEnabled(false);
+                        stopRec.setEnabled(true);
+                        GUI.btnStopRecording.setEnabled(true);
+                    } catch (IOException | InterruptedException | UnirestException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            });
+
+            stopRec.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    App.srv.stopRecording();
+
+                    JButton currButton = (JButton) btnStopRecording;
+                    currButton.setEnabled(false);
+                    
+                    stopRec.setEnabled(false);
+                    startRec.setEnabled(true);
+                    GUI.btnNewButton.setEnabled(true);
+                }
+            });
+
+            stopRec.setEnabled(false);
+
+            menu.add(show);
+            menu.add(startRec);
+            menu.add(stopRec);
+            menu.add(exit);
+
+            icon = new TrayIcon(new ImageIcon("icon.png").getImage(), "GW2 Autouploader", menu);
+
+            icon.setImageAutoSize(true);
+            icon.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    frame.setVisible(true);
+                }
+            });
+
+            tray.add(icon);
+        } else {
+            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        }
+
         setVisible(true);
 	}
 
@@ -125,7 +216,9 @@ public class GUI extends JFrame {
                     App.srv.startRecording(App.pathToDir);
                     JButton currButton = (JButton) arg0.getSource();
                     currButton.setEnabled(false);
+                    startRec.setEnabled(false);
 
+                    stopRec.setEnabled(true);
                     GUI.btnStopRecording.setEnabled(true);
                 } catch (IOException | InterruptedException | UnirestException e) {
                     e.printStackTrace();
@@ -135,12 +228,18 @@ public class GUI extends JFrame {
 
                 JButton currButton = (JButton) arg0.getSource();
                 currButton.setEnabled(false);
+                startRec.setEnabled(true);
 
+                stopRec.setEnabled(false);
                 GUI.btnNewButton.setEnabled(true);
             } else if(arg0.getSource().equals(GUI.btnNewButton_1)) {
                 GUI.frame.dispose();
                 App.pathToDir = new DirPath().getNewDirectory();
-                new GUI(App.pathToDir);
+                try {
+                    new GUI(App.pathToDir);
+                } catch (AWTException e) {
+                    e.printStackTrace();
+                }
                 App.srv = new HttpSrv();
             }
         }
