@@ -12,6 +12,8 @@ import java.nio.file.StandardWatchEventKinds;
 import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 import javax.swing.JOptionPane;
 
@@ -25,8 +27,8 @@ public class HttpSrv {
 	
     public static Boolean recordingStill = false;
 
-    public void startRecording(String pathToDir) throws IOException, UnirestException, InterruptedException {
-        System.out.println("Started listening...");
+    public void startRecording(String pathToDir, String URL) throws IOException, UnirestException, InterruptedException {
+        System.out.println("Started static listening...");
 
         Thread thread = new Thread(new Runnable() {
             public void run() {
@@ -50,14 +52,12 @@ public class HttpSrv {
                                 System.out.println("UPLOADING " + fullPath + "\n");
                                 File file = fullPath.toFile();
                                 try {
-                                    DpsReportApi.UPLOAD_FILE(file);
+                                    DpsReportApi.UPLOAD_FILE(file, URL);
                                 } catch (UnirestException e) {
                                     e.printStackTrace();
                                 }
                                 break;
                             }
-                            
-                            System.out.println(fullPath);
                         }
                         watchKey.reset();
                     }
@@ -81,23 +81,37 @@ public class HttpSrv {
         }
     }
 
-    public static void POST(String fightname, String permalink, String duration, String success, String fightcm, String guiString) {
-        String url = "http://78.108.218.94:25639/staticFileUpload";
-        HttpResponse<String> response;
+    public static void POST_STOP(String URL, Integer activeRecording) throws UnirestException {
+        
+        // stopFileUpload
+
+        String channelId = activeRecording == 1 ? "1007917782601572352" : "1027132780825559090";
+
+        HttpResponse<String> response = Unirest.post(URL)
+            .header("channelid", channelId).asString();
+
+        System.out.println(response.getBody());
+
+    }
+
+    public static void POST(String fightname, String permalink, String duration, String success, String fightcm, String guiString, String startTime, String endTime, String URL) {
+
+        Future<HttpResponse<String>> response;
         try {
 
             // String bossLogPermaLink = exchange.getRequestHeaders().getFirst("bosslog");
             // String bossLogTime = exchange.getRequestHeaders().getFirst("bosstime");
             // String bossLogSuccess = exchange.getRequestHeaders().getFirst("bosssuccess");
-
-            response = Unirest.post(url)
+            response = Unirest.post(URL)
                 .header("bosslog", permalink)
                 .header("bosstime", duration)
                 .header("bosssuccess", success)
                 .header("bossname", fightname)
-                .header("bosscm", fightcm).asString();
+                .header("bossstart", startTime)
+                .header("bossend", endTime)
+                .header("bosscm", fightcm).asStringAsync();
 
-            if(response.getStatus() == 500) {
+            if(response.get().getStatus() == 500) {
                 throw new UnirestException("Exception...");
             }
 
@@ -108,6 +122,10 @@ public class HttpSrv {
             JOptionPane.showMessageDialog(null, "Unfortunately, the port is not open to requests.", "ERROR", JOptionPane.ERROR_MESSAGE);
             App.srv.stopRecording();
             GUI.btnNewButton.setEnabled(true);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
         }
     }
 

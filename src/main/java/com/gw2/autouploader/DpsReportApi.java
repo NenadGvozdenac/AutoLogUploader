@@ -12,7 +12,7 @@ import com.google.gson.JsonParser;
 
 public class DpsReportApi {
 
-    public static void UPLOAD_FILE(File file) throws UnirestException {
+    public static void UPLOAD_FILE(File file, String URL) throws UnirestException {
         HttpResponse<String> response = Unirest.post("https://dps.report/uploadContent?json=1&generator=ei")
                 .field("file", file)
                 .asString();
@@ -33,9 +33,11 @@ public class DpsReportApi {
         String duration = objectDetailed.get("duration").getAsString();
         Boolean success = objectDetailed.get("success").getAsBoolean();
         Boolean logBossIsCm = object.getAsJsonObject().get("encounter").getAsJsonObject().get("isCm").getAsBoolean();
+        String startTime = objectDetailed.get("timeStart").getAsString();
+        String endTime = objectDetailed.get("timeEnd").getAsString();
 
         String guiString = fightName + " - " + permalink;
 
-        HttpSrv.POST(fightName, permalink, duration, String.valueOf(success), String.valueOf(logBossIsCm), guiString);
+        HttpSrv.POST(fightName, permalink, duration, String.valueOf(success), String.valueOf(logBossIsCm), guiString, startTime, endTime, URL);
     }
 }

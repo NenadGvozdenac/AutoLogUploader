@@ -7,11 +7,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
-import java.awt.Image;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import java.awt.SystemTray;
-import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -41,16 +39,20 @@ public class GUI extends JFrame {
 	private JTextField textField;
 
     public static JButton btnNewButton, btnStopRecording, btnNewButton_1;
+    public static JButton btnPersonalButtonStart;
     public static DefaultListModel<String> model;
 
     public static JFrame frame;
 
     public static TrayIcon icon;
 
+    public static Integer activeRecording;
+
     MenuItem show = new MenuItem("Open");
     MenuItem exit = new MenuItem("Exit");
     MenuItem startRec = new MenuItem("Start Rec.");
     MenuItem stopRec = new MenuItem("Stop Rec.");
+    MenuItem startPersonal = new MenuItem("Start Per. Rec.");
 
     public GUI(String pathToDir) throws AWTException {
         frame = this;
@@ -59,7 +61,7 @@ public class GUI extends JFrame {
 		setTitle("Logging Application UI");
 		setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
 		setResizable(false);
-		setBounds(100, 100, 450, 331);
+		setBounds(100, 100, 450, 350);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -118,6 +120,14 @@ public class GUI extends JFrame {
         btnStopRecording.addMouseListener(new ButtonEventListener());
         btnStopRecording.setEnabled(false);
 		contentPane.add(btnStopRecording);
+
+        btnPersonalButtonStart = new JButton("Start Personal");                          // start recording button
+		btnPersonalButtonStart.setToolTipText("Start the recording of logs...");
+		btnPersonalButtonStart.setFont(new Font("Segoe UI", Font.PLAIN, 11));
+		btnPersonalButtonStart.setBounds(10, 280, 121, 23);
+        btnPersonalButtonStart.addMouseListener(new ButtonEventListener());
+        btnPersonalButtonStart.setEnabled(true);
+		contentPane.add(btnPersonalButtonStart);
 		
 		btnNewButton_1 = new JButton("Change logging folder");                  // logging folder button
 		btnNewButton_1.setToolTipText("Change the logs that are being uploaded...");
@@ -154,17 +164,43 @@ public class GUI extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     try {
-                        App.srv.startRecording(App.pathToDir);
-                        JButton currButton = btnNewButton;
-                        currButton.setEnabled(false);
-    
-                        startRec.setEnabled(false);
-                        stopRec.setEnabled(true);
-                        GUI.btnStopRecording.setEnabled(true);
-                    } catch (IOException | InterruptedException | UnirestException e1) {
+                        App.srv.startRecording(App.pathToDir, "http://78.108.218.94:25639/staticFileUpload");
+                    } catch (IOException | UnirestException | InterruptedException e1) {
                         e1.printStackTrace();
                     }
+                    JButton currButton = btnNewButton;
+                    currButton.setEnabled(false);
+                    btnPersonalButtonStart.setEnabled(false);
+
+                    activeRecording = 1;
+
+                    GUI.btnStopRecording.setToolTipText("Static is active!");
+   
+                    startRec.setEnabled(false);
+                    startPersonal.setEnabled(false);
+                    stopRec.setEnabled(true);
+                    GUI.btnStopRecording.setEnabled(true);
                 }
+            });
+
+            startPersonal.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    btnPersonalButtonStart.setEnabled(false);
+                    btnNewButton.setEnabled(false);
+
+                    activeRecording = 2;
+
+                    GUI.btnStopRecording.setToolTipText("Personal is active!");
+
+                    startRec.setEnabled(false);
+                    startPersonal.setEnabled(false);
+                    stopRec.setEnabled(true);
+
+                    GUI.btnStopRecording.setEnabled(true);
+                }
+                
             });
 
             stopRec.addActionListener(new ActionListener() {
@@ -172,12 +208,21 @@ public class GUI extends JFrame {
                 public void actionPerformed(ActionEvent e) {
                     App.srv.stopRecording();
 
+                    System.out.println(activeRecording + " is active.");
+                    try {
+                        HttpSrv.POST_STOP("http://78.108.218.94:25639/stopFileUpload", activeRecording);
+                    } catch (UnirestException e1) {
+                        e1.printStackTrace();
+                    }
+
                     JButton currButton = (JButton) btnStopRecording;
                     currButton.setEnabled(false);
                     
                     stopRec.setEnabled(false);
                     startRec.setEnabled(true);
+                    startPersonal.setEnabled(true);
                     GUI.btnNewButton.setEnabled(true);
+                    GUI.btnPersonalButtonStart.setEnabled(true);
                 }
             });
 
@@ -185,6 +230,7 @@ public class GUI extends JFrame {
 
             menu.add(show);
             menu.add(startRec);
+            menu.add(startPersonal);
             menu.add(stopRec);
             menu.add(exit);
 
@@ -213,25 +259,38 @@ public class GUI extends JFrame {
             
             if(arg0.getSource().equals(GUI.btnNewButton) && GUI.btnNewButton.isEnabled()) {
                 try {
-                    App.srv.startRecording(App.pathToDir);
-                    JButton currButton = (JButton) arg0.getSource();
-                    currButton.setEnabled(false);
-                    startRec.setEnabled(false);
-
-                    stopRec.setEnabled(true);
-                    GUI.btnStopRecording.setEnabled(true);
-                } catch (IOException | InterruptedException | UnirestException e) {
+                    App.srv.startRecording(App.pathToDir, "http://78.108.218.94:25639/personalFileUpload");
+                } catch (IOException | UnirestException | InterruptedException e) {
                     e.printStackTrace();
                 }
+                JButton currButton = (JButton) arg0.getSource();
+                GUI.btnPersonalButtonStart.setEnabled(false);
+                currButton.setEnabled(false);
+                startRec.setEnabled(false);
+                startPersonal.setEnabled(false);
+
+                activeRecording = 1;
+                GUI.btnStopRecording.setToolTipText("Static is active!");
+                stopRec.setEnabled(true);
+                GUI.btnStopRecording.setEnabled(true);
             } else if(arg0.getSource().equals(GUI.btnStopRecording) && GUI.btnStopRecording.isEnabled()) {
                 App.srv.stopRecording();
 
                 JButton currButton = (JButton) arg0.getSource();
                 currButton.setEnabled(false);
                 startRec.setEnabled(true);
+                startPersonal.setEnabled(true);
 
                 stopRec.setEnabled(false);
                 GUI.btnNewButton.setEnabled(true);
+                GUI.btnPersonalButtonStart.setEnabled(true);
+
+                System.out.println(activeRecording + " is active.");
+                try {
+                    HttpSrv.POST_STOP("http://78.108.218.94:25639/stopFileUpload", activeRecording);
+                } catch (UnirestException e) {
+                    e.printStackTrace();
+                }
             } else if(arg0.getSource().equals(GUI.btnNewButton_1)) {
                 GUI.frame.dispose();
                 App.pathToDir = new DirPath().getNewDirectory();
@@ -241,6 +300,22 @@ public class GUI extends JFrame {
                     e.printStackTrace();
                 }
                 App.srv = new HttpSrv();
+            } else if(arg0.getSource().equals(GUI.btnPersonalButtonStart) && GUI.btnPersonalButtonStart.isEnabled()) {
+                try {
+                    App.srv.startRecording(App.pathToDir, "http://78.108.218.94:25639/personalFileUpload");
+                } catch (IOException | UnirestException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+                activeRecording = 2;
+                GUI.btnStopRecording.setToolTipText("Personal is active!");
+                JButton currButton = (JButton) arg0.getSource();
+                GUI.btnNewButton.setEnabled(false);
+                currButton.setEnabled(false);
+                startRec.setEnabled(false);
+                startPersonal.setEnabled(false);
+   
+                stopRec.setEnabled(true);
+                GUI.btnStopRecording.setEnabled(true);
             }
         }
 
