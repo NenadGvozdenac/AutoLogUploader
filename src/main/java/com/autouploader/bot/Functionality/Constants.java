@@ -13,7 +13,7 @@ public class Constants {
     static HashMap<String, String> listOfEmojisAndBosses = new HashMap<String, String>(){
         {
             put("Vale Guardian", "<:valeguardian:1027914648361644053>");
-            put("Gorseval the Multifarious", "<:gorseval:1027914649825456128>");
+            put("Gorseval", "<:gorseval:1027914649825456128>");
             put("Sabetha the Saboteur", "<:sabetha:1027914651075346483>");
             put("Slothasor", "<:slothasor:1027914668053897266>");
             put("Bandit Trio", "<:trio:1027914665394720869>");
@@ -22,12 +22,12 @@ public class Constants {
             put("Keep Construct", "<:kc:1027914683996454972>");
             put("Twisted Castle", "<:twistedcastle:1027914681203052585>");
             put("Xera", "<:xera:1027914682641698926>");
-            put("Cairn", "<:cairn:1027914701755125840>");
+            put("Cairn the Indomitable", "<:cairn:1027914701755125840>");
             put("Mursaat Overseer", "<:mursaat:1027914699037229076>");
             put("Samarog", "<:samarog:1027914700396175441>");
             put("Deimos", "<:deimos:1027914697367887942>");
             put("Soulless Horror", "<:soullesshorror:1027914720411406367>");
-            put("River of Souls", "<:river:1027914718666575885>");
+            put("Desmina Escort", "<:river:1027914718666575885>");
             put("Statue of Ice", "<:brokenking:1027914722189770863>");
             put("Statue of Death", "<:eaterofsouls:1027914725515874375>");
             put("Statue of Darkness", "<:eyes:1027914717634764851>");
@@ -46,7 +46,7 @@ public class Constants {
             put("MAMA", "<:mama:1027914765927989298>");
             put("Nightmare Oratuss", "<:siax:1027914767274360913>");
             put("Ensolyss of the Endless Torment", "<:ensolyss:1027914768717201428>");
-            put("Super Kodan Brothers", "<:voiceandclaw:1027914842692124672>");
+            put("The Voice and The Claw", "<:voiceandclaw:1027914842692124672>");
             put("Fraenir of Jormag", "<:fraenir:1027914839009534002>");
             put("Boneskinner", "<:boneskinner:1027914845540057240>");
             put("Whisper of Jormag", "<:whipserofjormag:1027914844046901299>");
@@ -78,7 +78,7 @@ public class Constants {
             put("Spirit Vale", new ArrayList<String>() {
                 {
                     add("Vale Guardian");
-                    add("Gorseval the Multifarious");
+                    add("Gorseval");
                     add("Sabetha the Saboteur");
                 }
             });
@@ -112,7 +112,7 @@ public class Constants {
             put("Hall of Chains", new ArrayList<String>() {
                 {
                     add("Soulless Horror");
-                    add("River of Souls");
+                    add("Desmina Escort");
                     add("Statue of Ice");
                     add("Statue of Death");
                     add("Statue of Darkness");
@@ -170,7 +170,7 @@ public class Constants {
 
             put("Icebrood Saga", new ArrayList<String>() {
                 {
-                    add("Super Kodan Brothers");
+                    add("The Voice and The Claw");
                     add("Fraenir of Jormag");
                     add("Boneskinner");
                     add("Whisper of Jormag");
