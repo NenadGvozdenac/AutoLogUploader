@@ -19,13 +19,30 @@ public class Boss {
     private String endTime;
     private String wing;
     private String emoji;
-
     private String permalink;
-    private JsonObject object;
+    private String error;
 
     public Boss(JsonElement element) {
-        object = element.getAsJsonObject();
-        permalink = object.get("permalink").getAsString();                   // Important
+
+        JsonObject object = element.getAsJsonObject();
+
+        try {
+            permalink = object.get("permalink").getAsString();                   // Important
+        } catch (NullPointerException e) {
+            this.fightName = "Unidentified";
+            this.duration = "Unidentified";
+            this.success = false;
+            this.logBossIsCm = false;
+            this.startTime = "Unidentified";
+            this.endTime = "Unidentified";
+            this.wing = "Unidentified";
+            this.emoji = "Unidentified";
+            this.permalink = "Unidentified";
+            this.error = object.get("error").getAsString();
+            return;
+        }
+
+        error = null;
 
         fightName = object.get("encounter").getAsJsonObject().get("boss").getAsString();
 
@@ -143,6 +160,10 @@ public class Boss {
 	public void setPermalink(String permalink) {
 		this.permalink = permalink;
 	}
+
+    public String getErrorString() {
+        return this.error;
+    }
 
     @Override
     public String toString() {

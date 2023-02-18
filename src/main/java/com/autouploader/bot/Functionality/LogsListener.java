@@ -106,7 +106,6 @@ public class LogsListener implements Runnable {
     }
 
     public void registerAll(final Path start) throws IOException {
-        // register directory and sub-directories
         Files.walkFileTree(start, new SimpleFileVisitor<Path>() {
             @Override
             public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
@@ -138,7 +137,6 @@ public class LogsListener implements Runnable {
                         File file = fullPath.toFile();  // arcdps file
 
                         uploadFileToArcDps(file);
-
                         break;
                     }
                 }
@@ -241,7 +239,7 @@ public class LogsListener implements Runnable {
             .create();
 
         try (FileReader reader = new FileReader(new File("./logRecording.json"))) {
-            java.lang.reflect.Type founderTypeSet = new TypeToken<ArrayList<Boss>>(){}.getType();
+            Type founderTypeSet = new TypeToken<ArrayList<Boss>>(){}.getType();
             ArrayList<Boss> listOfBossesAlreadyRecorded = gson.fromJson(reader, founderTypeSet);
 
             reader.close();
@@ -262,8 +260,15 @@ public class LogsListener implements Runnable {
                     put("Practice Room", new ArrayList<>());
                     put("Icebrood Saga", new ArrayList<>());
                     put("End of Dragons", new ArrayList<>());
+                    put("Unidentified", new ArrayList<>());
                 }
             };
+
+            for(int i = 0; i < listOfBossesAlreadyRecorded.size(); i++) {
+                if(listOfBossesAlreadyRecorded.get(i).getErrorString() != null) {
+                    listOfBossesAlreadyRecorded.remove(listOfBossesAlreadyRecorded.get(i));
+                }
+            }
 
             for(Boss boss : listOfBossesAlreadyRecorded) {
                 if(wings.containsKey(boss.getWing())) {
@@ -301,8 +306,14 @@ public class LogsListener implements Runnable {
             ZoneId offset = ZoneOffset.systemDefault();
             OffsetDateTime odt = ZonedDateTime.of(ldt, offset).toOffsetDateTime();
     
-            Boss firstBoss = listOfBossesAlreadyRecorded.get(0);
-            Boss lastBoss = listOfBossesAlreadyRecorded.get(listOfBossesAlreadyRecorded.size() - 1);
+            Boss firstBoss, lastBoss;
+
+            try {
+                firstBoss = listOfBossesAlreadyRecorded.get(0);
+                lastBoss = listOfBossesAlreadyRecorded.get(listOfBossesAlreadyRecorded.size() - 1);
+            } catch(IndexOutOfBoundsException e) {
+                return false;
+            }
 
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss X", Locale.getDefault());
 

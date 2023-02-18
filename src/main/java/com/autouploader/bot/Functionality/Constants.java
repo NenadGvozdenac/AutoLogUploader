@@ -28,9 +28,9 @@ public class Constants {
             put("Deimos", "<:deimos:1027914697367887942>");
             put("Soulless Horror", "<:soullesshorror:1027914720411406367>");
             put("Desmina Escort", "<:river:1027914718666575885>");
-            put("Statue of Ice", "<:brokenking:1027914722189770863>");
-            put("Statue of Death", "<:eaterofsouls:1027914725515874375>");
-            put("Statue of Darkness", "<:eyes:1027914717634764851>");
+            put("Broken King", "<:brokenking:1027914722189770863>");
+            put("Soul Eater", "<:eaterofsouls:1027914725515874375>");
+            put("Eye of Judgement", "<:eyes:1027914717634764851>");
             put("Dhuum", "<:dhuum:1027914723875885087>");
             put("Conjured Amalgamate", "<:ca:1027914735435386931>");
             put("Twin Largos", "<:largos:1027914737046016080>");
@@ -68,7 +68,6 @@ public class Constants {
 			URL url = new URL("https://i.imgur.com/fEp1YSh.png");
 			image =  new ImageIcon(url).getImage();
 		} catch (IOException e) {
-			System.out.println(" Kurac");
 			e.printStackTrace();
 		}
     }
@@ -102,7 +101,7 @@ public class Constants {
 
             put("Bastion of the Penitent", new ArrayList<String>() {
                 {
-                    add("Cairn");
+                    add("Cairn the Indomitable");
                     add("Mursaat Overseer");
                     add("Samarog");
                     add("Deimos");
@@ -113,9 +112,9 @@ public class Constants {
                 {
                     add("Soulless Horror");
                     add("Desmina Escort");
-                    add("Statue of Ice");
-                    add("Statue of Death");
-                    add("Statue of Darkness");
+                    add("Broken King");
+                    add("Soul Eater");
+                    add("Eye of Judgement");
                     add("Dhuum");
                 }
             });
