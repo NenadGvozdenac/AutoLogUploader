@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 
+import javax.swing.JOptionPane;
+
 import com.autouploader.bot.GUI.Application;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -22,9 +24,16 @@ public class Boss {
     private String permalink;
     private String error;
 
-    public Boss(JsonElement element) {
+    public Boss(JsonElement element, LogsListener logsListener) {
 
-        JsonObject object = element.getAsJsonObject();
+        JsonObject object = null;
+        try {
+            object = element.getAsJsonObject();
+        } catch(IllegalStateException e) {
+            System.out.println("Illegal State - DPS.REPORTS is down!");
+            logsListener.stopRecording(false);
+            JOptionPane.showMessageDialog(Application.mainFrame, "The log was not uploaded! DPS.REPORTS is down!", "Discord Autouploader / GW2 Autouploader", JOptionPane.WARNING_MESSAGE);
+        }
 
         try {
             permalink = object.get("permalink").getAsString();                   // Important

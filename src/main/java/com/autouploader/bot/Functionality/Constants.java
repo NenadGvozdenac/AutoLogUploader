@@ -38,13 +38,12 @@ public class Constants {
             put("Cardinal Sabir", "<:sabir:1027914746772606976>");
             put("Qadim the Peerless", "<:qtp:1027914749662482492>");
             put("Qadim", "<:qadim:1027914734000939038>");
-            put("Elemental Ai, Keeper of the Peak", "<:lightai:1027914790951198750>");
-            put("Dark Ai, Keeper of the Peak", "<:darkai:1027914792180121640>");
-            put("Skorvald", "<:skorvald:1027914778594783252>");
+            put("Ai", "<:lightai:1027914790951198750>");
+            put("Skorvald the Shattered", "<:skorvald:1027914778594783252>");
             put("Artsariiv", "<:artsariiv:1027914781153316894>");
             put("Arkk", "<:arkk:1027914779790151721>");
-            put("MAMA", "<:mama:1027914765927989298>");
-            put("Nightmare Oratuss", "<:siax:1027914767274360913>");
+            put("M A M A", "<:mama:1027914765927989298>");
+            put("Siax the Corrupted", "<:siax:1027914767274360913>");
             put("Ensolyss of the Endless Torment", "<:ensolyss:1027914768717201428>");
             put("The Voice and The Claw", "<:voiceandclaw:1027914842692124672>");
             put("Fraenir of Jormag", "<:fraenir:1027914839009534002>");
@@ -138,14 +137,13 @@ public class Constants {
 
             put("Sunqua Peak", new ArrayList<String>() {
                 {
-                    add("Elemental Ai, Keeper of the Peak");
-                    add("Dark Ai, Keeper of the Peak");
+                    add("Ai");
                 }
             });
 
             put("Shattered Observatory", new ArrayList<String>() {
                 {
-                    add("Skorvald");
+                    add("Skorvald the Shattered");
                     add("Artsariiv");
                     add("Arkk");
                 }
@@ -153,8 +151,8 @@ public class Constants {
 
             put("Nightmare", new ArrayList<String>() {
                 {
-                    add("MAMA");
-                    add("Nightmare Oratuss");
+                    add("M A M A");
+                    add("Siax the Corrupted");
                     add("Ensolyss of the Endless Torment");
                 }
             });

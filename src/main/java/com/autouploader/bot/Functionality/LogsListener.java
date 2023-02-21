@@ -158,7 +158,7 @@ public class LogsListener implements Runnable {
 
             JsonElement element = JsonParser.parseString(response.getBody());
 
-            Boss boss = new Boss(element);
+            Boss boss = new Boss(element, this);
 
             if(this.typeOfRecording == TypeOfRecording.SINGLE) {
                 sendSingleBossRecording(boss);
@@ -260,6 +260,9 @@ public class LogsListener implements Runnable {
                     put("Practice Room", new ArrayList<>());
                     put("Icebrood Saga", new ArrayList<>());
                     put("End of Dragons", new ArrayList<>());
+                    put("Nightmare", new ArrayList<>());
+                    put("Shattered Observatory", new ArrayList<>());
+                    put("Sunqua Peak", new ArrayList<>());
                     put("Unidentified", new ArrayList<>());
                 }
             };
