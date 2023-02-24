@@ -9,6 +9,9 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 
+/**
+ * Constants class used for indicating constants used in code.
+ */
 public class Constants {
     static HashMap<String, String> listOfEmojisAndBosses = new HashMap<String, String>(){
         {

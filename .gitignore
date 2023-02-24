@@ -1,3 +1,5 @@
 Icons
 logRecording.json
 path.json
+*.class
+target

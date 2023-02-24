@@ -65,6 +65,13 @@ public class LogsListener implements Runnable {
 
     TypeOfRecording typeOfRecording;
 
+    /**
+     * 
+     * @param typeOfRecording
+     * @throws IOException
+     * @throws UnirestException
+     * @throws InterruptedException
+     */
     public void startRecording(TypeOfRecording typeOfRecording) throws IOException, UnirestException, InterruptedException {
         this.typeOfRecording = typeOfRecording;
         if(recordingFileExists()) {
@@ -80,16 +87,27 @@ public class LogsListener implements Runnable {
         thread.start();  
     }
 
+    /**
+     * 
+     * @return
+     */
     public boolean recordingFileExists() {
         File file = new File("./logRecording.json");
         return file.exists();
     }
 
+    /**
+     * 
+     */
     public void restartRecordingFile() {
         File file = new File("./logRecording.json");
         file.delete();
     }
 
+    /**
+     * 
+     * @param sendMessage
+     */
     public void stopRecording(Boolean sendMessage) {
         typeOfRecording = TypeOfRecording.STOPPED;
         if(sendMessage) {
@@ -99,12 +117,20 @@ public class LogsListener implements Runnable {
         this.thread.interrupt();
     }
 
+    /**
+     * 
+     */
     private void sendMessageAboutStoppingRecording() {
         Application.mainFrame.setVisible(false);
         JOptionPane.showMessageDialog(null, "You stopped the recording!", "Discord Autouploader / GW2 Autouploader", JOptionPane.INFORMATION_MESSAGE);
         Application.mainFrame.setVisible(true);
     }
 
+    /**
+     * 
+     * @param start
+     * @throws IOException
+     */
     public void registerAll(final Path start) throws IOException {
         Files.walkFileTree(start, new SimpleFileVisitor<Path>() {
             @Override
@@ -150,6 +176,10 @@ public class LogsListener implements Runnable {
         }    
     }
 
+    /**
+     * 
+     * @param file
+     */
     public void uploadFileToArcDps(File file) {
        try {
             HttpResponse<String> response = Unirest.post("https://dps.report/uploadContent?json=1&generator=ei")
@@ -171,6 +201,10 @@ public class LogsListener implements Runnable {
         }
     }
 
+    /**
+     * 
+     * @param boss
+     */
     private void sendBossRecordingToJsonFile(Boss boss) {
         Gson gson = new GsonBuilder()
             .disableHtmlEscaping()
@@ -214,6 +248,10 @@ public class LogsListener implements Runnable {
         }
     }
 
+    /**
+     * 
+     * @param boss
+     */
     private void sendSingleBossRecording(Boss boss) {
 
         System.out.println("Sending " + boss.getFightName() + ", " + boss.getPermalink() + "!");
@@ -229,6 +267,10 @@ public class LogsListener implements Runnable {
         client.send(bigString);
     }
 
+    /**
+     * 
+     * @return
+     */
     public boolean sendLogsInBatch() {
 
         Gson gson = new GsonBuilder()

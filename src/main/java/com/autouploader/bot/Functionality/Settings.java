@@ -15,12 +15,22 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * Settings class used for reading / writing the settings to path.json.
+ */
 public class Settings {
 	private Boolean folderIsAdded;
 	private Boolean webhookIsAdded;
 	private String pathToFolder;
 	private String linkToWebhook;
-	
+
+	/**
+	 * Parameterised constructor for Settings class.
+	 * @param folderIsAdded 	- boolean to indicate if the folder is added.
+	 * @param webhookIsAdded 	- boolean to indicate if the webhook is added.
+	 * @param pathToFolder 		- String path to the folder selected.
+	 * @param linkToWebhook		- String link to the webhook selected.
+	 */
 	public Settings(Boolean folderIsAdded, Boolean webhookIsAdded, String pathToFolder, String linkToWebhook) {
 		super();
 		this.folderIsAdded = folderIsAdded;
@@ -29,6 +39,9 @@ public class Settings {
 		this.linkToWebhook = linkToWebhook;
 	}
 	
+	/**
+	 * Default constructor for Settings class.
+	 */
 	public Settings() {
 		super();
 		this.folderIsAdded = false;
@@ -43,26 +56,50 @@ public class Settings {
 				+ pathToFolder + ", linkToWebhook=" + linkToWebhook + "]";
 	}
 
+	/**
+	 * Getter for Boolean folderIsAdded;
+	 * @return boolean 
+	 */
 	public Boolean getFolderIsAdded() {
 		return folderIsAdded;
 	}
 	
+	/**
+	 * Setter for Boolean folderIsAdded
+	 * @param folderIsAdded
+	 */
 	public void setFolderIsAdded(Boolean folderIsAdded) {
 		this.folderIsAdded = folderIsAdded;
 	}
 	
+	/**
+	 * Getter for Boolean webhookIsAdded
+	 * @return boolean
+	 */
 	public Boolean getWebhookIsAdded() {
 		return webhookIsAdded;
 	}
 	
+	/**
+	 * Setter for Boolean webhookIsAdded
+	 * @param webhookIsAdded
+	 */
 	public void setWebhookIsAdded(Boolean webhookIsAdded) {
 		this.webhookIsAdded = webhookIsAdded;
 	}
 	
+	/**
+	 * Getter for String pathToFolder
+	 * @return String
+	 */
 	public String getPathToFolder() {
 		return pathToFolder;
 	}
-	
+
+	/**
+	 * Setter for String pathToFolder
+	 * @param pathToFolder
+	 */
 	public void setPathToFolder(String pathToFolder) {
 		this.pathToFolder = pathToFolder;
 	}
@@ -75,6 +112,10 @@ public class Settings {
 		this.linkToWebhook = linkToWebhook;
 	}
 
+	/**
+	 * Function which reads the settings from the file path.json.
+	 * @throws FileNotFoundException
+	 */
     public static void readSettings() throws FileNotFoundException {
         Reader reader = new FileReader(new File("./path.json"));
 
@@ -89,6 +130,13 @@ public class Settings {
         Application.setSettings(gson.fromJson(reader, founderTypeSet));
     }
 
+	/**
+	 * 
+	 * Function which, after successfully inputting new settings, writes new settings to path.json.
+	 * 
+	 * @param settings
+	 * @throws IOException
+	 */
     public static void writeSettings(Settings settings) throws IOException {
         Writer writer = new FileWriter(new File("./path.json"));
 
@@ -103,9 +151,11 @@ public class Settings {
         writer.close();
     }
 
+	/**
+	 * Function which returns whether the folder is added and webhook is set!
+	 * @return boolean
+	 */
     public boolean isValid() {
-        if(Application.getSettings().getFolderIsAdded() && Application.getSettings().getWebhookIsAdded()) {
-            return true;
-        } else return false;
+		return Application.getSettings().getFolderIsAdded() && Application.getSettings().getWebhookIsAdded();
     }
 }

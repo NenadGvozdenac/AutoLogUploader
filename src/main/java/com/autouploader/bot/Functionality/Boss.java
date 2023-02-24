@@ -12,6 +12,9 @@ import com.autouploader.bot.GUI.Application;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+/**
+ * Boss class used for indicating a single boss from an autouploaded log.
+ */
 public class Boss {
     private String fightName;
     private String duration;
@@ -24,6 +27,11 @@ public class Boss {
     private String permalink;
     private String error;
 
+    /**
+     * Parametrised constructor used for creating a Boss object.
+     * @param element
+     * @param logsListener
+     */
     public Boss(JsonElement element, LogsListener logsListener) {
 
         JsonObject object = null;
