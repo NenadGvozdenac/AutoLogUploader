@@ -57,3 +57,12 @@ Libraries used
 2. [MinnDevelopment - discord-webhook](https://github.com/MinnDevelopment/discord-webhooks) (for sending files to discord)
 3. [Gson](https://github.com/google/gson)
 4. [Unirest](http://kong.github.io/unirest-java/) (for handling http requests to APIs)
+
+# Usage
+<code>$ git clone https://github.com/NenadGvozdenac/AutoLogUploader</code>
+
+<code>$ mvn clean package</code>
+
+<code>$ cd target</code>
+
+<code>$ uploaderbot-1.0-SNAPSHOT-shaded.jar</code>
