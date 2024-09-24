@@ -1,8 +1,11 @@
-C:\Users\matri\Desktop\GW2 Autouploader Discord\src\main\java\com\autouploader\bot\Functionality\LogsListener.java
-C:\Users\matri\Desktop\GW2 Autouploader Discord\src\main\java\com\autouploader\bot\Functionality\Constants.java
-C:\Users\matri\Desktop\GW2 Autouploader Discord\src\main\java\com\autouploader\bot\GUI\windowListener.java
-C:\Users\matri\Desktop\GW2 Autouploader Discord\src\main\java\com\autouploader\bot\GUI\Application.java
-C:\Users\matri\Desktop\GW2 Autouploader Discord\src\main\java\com\autouploader\bot\GUI\ChangeFolder.java
-C:\Users\matri\Desktop\GW2 Autouploader Discord\src\main\java\com\autouploader\bot\Functionality\Boss.java
-C:\Users\matri\Desktop\GW2 Autouploader Discord\src\main\java\com\autouploader\bot\Functionality\Settings.java
-C:\Users\matri\Desktop\GW2 Autouploader Discord\src\main\java\com\autouploader\bot\GUI\ChangeWebhook.java
+C:\Users\matri\Desktop\AutoUploader\AutoLogUploader\src\main\java\com\autouploader\bot\MainApp.java
+C:\Users\matri\Desktop\AutoUploader\AutoLogUploader\src\main\java\com\autouploader\bot\Models\LogsListener.java
+C:\Users\matri\Desktop\AutoUploader\AutoLogUploader\src\main\java\com\autouploader\bot\Misc\Settings.java
+C:\Users\matri\Desktop\AutoUploader\AutoLogUploader\src\main\java\com\autouploader\bot\Presentation\ChangeFolder.java
+C:\Users\matri\Desktop\AutoUploader\AutoLogUploader\src\main\java\com\autouploader\bot\Presentation\GUI\Events\WindowListener.java
+C:\Users\matri\Desktop\AutoUploader\AutoLogUploader\src\main\java\com\autouploader\bot\Presentation\ChangeWebhook.java
+C:\Users\matri\Desktop\AutoUploader\AutoLogUploader\src\main\java\com\autouploader\bot\Misc\Constants.java
+C:\Users\matri\Desktop\AutoUploader\AutoLogUploader\src\main\java\com\autouploader\bot\Models\Boss.java
+C:\Users\matri\Desktop\AutoUploader\AutoLogUploader\src\main\java\com\autouploader\bot\Misc\Logger.java
+C:\Users\matri\Desktop\AutoUploader\AutoLogUploader\src\main\java\com\autouploader\bot\Presentation\MainWindow.java
+C:\Users\matri\Desktop\AutoUploader\AutoLogUploader\src\main\java\com\autouploader\bot\Presentation\GUI\Components\ApplicationComponents.java
