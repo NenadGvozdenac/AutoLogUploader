@@ -22,6 +22,7 @@ public class Boss {
     private String duration;
     private Boolean success;
     private Boolean logBossIsCm;
+    private Boolean logBossIsLcm;
     private String startTime;
     private String endTime;
     private String wing;
@@ -51,6 +52,7 @@ public class Boss {
             this.duration = "Unidentified";
             this.success = false;
             this.logBossIsCm = false;
+            this.logBossIsLcm = false;
             this.startTime = "Unidentified";
             this.endTime = "Unidentified";
             this.wing = "Unidentified";
@@ -80,6 +82,7 @@ public class Boss {
 
         success = object.get("encounter").getAsJsonObject().get("success").getAsBoolean();
         logBossIsCm = object.get("encounter").getAsJsonObject().get("isCm").getAsBoolean();
+        logBossIsLcm = object.get("encounter").getAsJsonObject().get("isLegendaryCm").getAsBoolean();
 
         instant = Instant.ofEpochSecond((long) object.get("encounterTime").getAsInt());
         date = Date.from(instant);
@@ -154,6 +157,14 @@ public class Boss {
 	public void setLogBossIsCm(Boolean logBossIsCm) {
 		this.logBossIsCm = logBossIsCm;
 	}
+
+    public Boolean getLogBossIsLcm() {
+        return logBossIsLcm;
+    }
+
+    public void setLogBossIsLcm(Boolean logBossIsLcm) {
+        this.logBossIsLcm = logBossIsLcm;
+    }
 
 	public String getStartTime() {
 		return startTime;

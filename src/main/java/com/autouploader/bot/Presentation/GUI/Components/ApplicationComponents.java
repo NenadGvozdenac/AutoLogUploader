@@ -192,7 +192,7 @@ public class ApplicationComponents {
         btnStopSingleRecording.setEnabled(false);
         btnStopRecording.setEnabled(false);
 
-        listener.stopRecording(true);
+        listener.stopRecording(false);
 
         Logger.log("Single recording stopped!");
     }

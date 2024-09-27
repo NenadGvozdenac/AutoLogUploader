@@ -37,6 +37,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import com.autouploader.bot.MainApp;
+import com.autouploader.bot.Misc.BossBuilder;
 import com.autouploader.bot.Misc.Logger;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
@@ -245,12 +246,7 @@ public class LogsListener implements Runnable {
     private final Object fileLock = new Object();
 
     private void sendBossRecordingToJsonFile(Boss boss) {
-        Gson gson = new GsonBuilder()
-            .disableHtmlEscaping()
-            .setFieldNamingStrategy(FieldNamingPolicy.UPPER_CAMEL_CASE)
-            .setPrettyPrinting()
-            .serializeNulls()
-            .create();
+        Gson gson = createGson();
     
         File logFile = new File("./logRecording.json");
     
@@ -287,31 +283,15 @@ public class LogsListener implements Runnable {
             }
         }
     }
-    
 
-    /**
-     * 
-     * @param boss
-     */
     private void sendSingleBossRecording(Boss boss) {
         Logger.log("Sending " + boss.getFightName() + ", `" + boss.getPermalink() + "`!");
 
         // Build the Webhook client
         try (WebhookClient client = new WebhookClientBuilder(MainApp.settings.getLinkToWebhook()).build()) {
-
-            // Use StringBuilder to build the message
-            StringBuilder messageBuilder = new StringBuilder();
-
-            messageBuilder.append(boss.getSuccess() ? ":white_check_mark:" : ":x:")
-                        .append(" [")
-                        .append(boss.getFightName())
-                        .append("](")
-                        .append(boss.getPermalink())
-                        .append(") - ")
-                        .append(boss.getDuration());
-
-            // Send the constructed message to the webhook
-            client.send(messageBuilder.toString());
+            BossBuilder bossBuilder = new BossBuilder(boss);
+            client.send(new StringBuilder().append(bossBuilder.build(typeOfRecording)).toString());
+            Logger.log("Sent " + boss.getFightName() + ", `" + boss.getPermalink() + "`!");
         } catch (Exception e) {
             Logger.log("Error sending boss recording: " + e.getMessage());
         }
@@ -437,12 +417,10 @@ public class LogsListener implements Runnable {
 
             for (Boss boss : wing) {
                 if (!boss.getSuccess()) continue;
-
                 hasContent = true;
-                wingContent.append((boss.getEmoji() != null ? boss.getEmoji() + " " : ""))
-                        .append("[").append(boss.getFightName()).append("](")
-                        .append(boss.getPermalink()).append(") ")
-                        .append(boss.getDuration().replace("00m ", "")).append("\n");
+
+                BossBuilder bossBuilder = new BossBuilder(boss);
+                wingContent.append(bossBuilder.build(typeOfRecording));
             }
 
             if (hasContent) {
