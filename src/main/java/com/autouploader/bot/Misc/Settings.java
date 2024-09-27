@@ -160,12 +160,12 @@ public class Settings {
 		}
     }
 
-	/**
-	 * Function which returns whether the folder is added and webhook is set!
-	 * @return boolean
-	 */
+	public boolean folderExists() {
+		return new File(pathToFolder).exists();
+	}
+
     public boolean isValid() {
-		return folderIsAdded && webhookIsAdded;
+		return folderIsAdded && webhookIsAdded && folderExists();
     }
 
 	public boolean haveBeenWritten() {

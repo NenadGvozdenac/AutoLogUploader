@@ -59,10 +59,21 @@ Libraries used
 4. [Unirest](http://kong.github.io/unirest-java/) (for handling http requests to APIs)
 
 # Usage
+### If you want to just run the program:
+Download the .jar (or .exe) from the downloads, and run it.
+
+### If you want to clone the repository and play with it:
+
+<code>$ git clone https://github.com/NenadGvozdenac/AutoLogUploader</code>
+
+<code>$ mvn clean install</code>
+
+<code>$ mvn exec:java</code>
+
+### If you want to clone the repository and run the file:
+
 <code>$ git clone https://github.com/NenadGvozdenac/AutoLogUploader</code>
 
 <code>$ mvn clean package</code>
 
-<code>$ cd target</code>
-
-<code>$ uploaderbot-1.0-SNAPSHOT-shaded.jar</code>
+<code>$ java -jar target/uploaderbot-1.0-SNAPSHOT-shaded.jar</code>

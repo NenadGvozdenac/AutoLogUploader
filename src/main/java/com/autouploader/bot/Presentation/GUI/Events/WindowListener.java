@@ -27,7 +27,22 @@ public class WindowListener extends WindowAdapter {
     }
 
     private void handleClosingEvent() {
+        if(!MainApp.mainFrame.IsRecording()) {
+            closeApplication();
+            return;
+        }
+
+        if (getResponse() == 0) {
+            sendAndClose();
+            return;
+        } 
+
+        closeApplication();
+    }
+
+    private int getResponse() {
         String[] options = {"Send", "Don't Send"};
+        
         int response = JOptionPane.showOptionDialog(
                 null,
                 "You were recording multiple files.\nFiles have not been sent anywhere!\nDo you wish to send them or not?",
@@ -38,12 +53,7 @@ public class WindowListener extends WindowAdapter {
                 options,
                 options[0]
         );
-
-        if (response == 0) {
-            sendAndClose();
-        } else if (response == 1) {
-            closeWithoutSending();
-        }
+        return response;
     }
 
     private void sendAndClose() {
@@ -54,7 +64,7 @@ public class WindowListener extends WindowAdapter {
         System.exit(0);
     }
 
-    private void closeWithoutSending() {
+    private void closeApplication() {
         System.exit(0);
     }
 }

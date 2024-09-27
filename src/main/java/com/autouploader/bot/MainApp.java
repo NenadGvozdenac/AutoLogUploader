@@ -2,6 +2,7 @@ package com.autouploader.bot;
 
 import java.awt.EventQueue;
 
+import com.autouploader.bot.Misc.ApplicationType;
 import com.autouploader.bot.Misc.Logger;
 import com.autouploader.bot.Misc.Settings;
 import com.autouploader.bot.Presentation.ChangeFolder;
@@ -11,6 +12,8 @@ import com.autouploader.bot.Presentation.MainWindow;
 public class MainApp {
     public static Settings settings;
     public static MainWindow mainFrame;
+
+    public static ApplicationType applicationType;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
@@ -38,7 +41,7 @@ public class MainApp {
 
     private static void fixSettings() {
         settings.setHaveBeenWritten(false);
-        if(!settings.getFolderIsAdded()) {
+        if(!(settings.getFolderIsAdded() && settings.folderExists())) {
             ChangeFolder changeFolderFrame = new ChangeFolder();
             changeFolderFrame.setVisible(true);
         } else if(!settings.getWebhookIsAdded()) {

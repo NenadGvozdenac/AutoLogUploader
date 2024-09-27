@@ -9,6 +9,7 @@ import java.util.Date;
 
 public class Logger {
     public static final String LOG_FOLDER = "logs";
+    public static final String DEV_LOG_FOLDER = "logs/dev";
 
     public static void log(String message) {
         // Ensure the log folder exists

@@ -57,4 +57,8 @@ public class MainWindow extends JFrame {
     public void restartRecordingFile() {
         components.listener.restartRecordingFile();
     }
+
+    public boolean IsRecording() {
+        return components.listener.recordingStill;
+    }
 }

@@ -1,6 +1,5 @@
 package com.autouploader.bot.Misc;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,6 +8,8 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 
+import com.autouploader.bot.MainApp;
+
 /**
  * Constants class used for indicating constants used in code.
  */
@@ -16,7 +17,7 @@ public class Constants {
     public static HashMap<String, String> listOfEmojisAndBosses = new HashMap<String, String>(){
         {
             put("Vale Guardian", "<:valeguardian:1027914648361644053>");
-            put("Spirit Race", "<:spiritrace:1027914649825456128>");
+            put("Spirit Race", "<:spiritrace:1289228517547966616>");
             put("Gorseval", "<:gorseval:1027914649825456128>");
             put("Sabetha the Saboteur", "<:sabetha:1027914651075346483>");
             put("Slothasor", "<:slothasor:1027914668053897266>");
@@ -71,9 +72,9 @@ public class Constants {
 
     static {
         try {
-			URL url = new URL("https://i.imgur.com/fEp1YSh.png");
+			URL url = MainApp.class.getResource("/icon.png");
 			image =  new ImageIcon(url).getImage();
-		} catch (IOException e) {
+		} catch (Exception e) {
             Logger.log("Error loading image: " + e.getMessage());
 		}
     }

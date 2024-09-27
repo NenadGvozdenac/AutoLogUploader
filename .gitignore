@@ -3,3 +3,4 @@ logRecording.json
 path.json
 *.class
 target
+logs
